@@ -786,6 +786,15 @@
     probe.src = 'images/bali-sunset.jpg';
   })();
 
+  // ── Pledges → Google Sheet (BB4 admin dashboard reads this) ──
+  // Paste the deployed Apps Script web-app /exec URL here to mirror pledges into
+  // the Google Sheet. Leave '' to disable (pledges still email via FormSubmit).
+  const PLEDGE_SHEET_URL = '';
+  function mirrorPledgeToSheet(form) {
+    if (!PLEDGE_SHEET_URL) return;
+    try { fetch(PLEDGE_SHEET_URL, { method: 'POST', body: new FormData(form), mode: 'no-cors' }); } catch (_) {}
+  }
+
   // ── Artist request gate — pledge required ──
   const PLEDGE_KEY = 'bb_pledged';
   const artistForm = document.getElementById('artistForm');
@@ -938,6 +947,7 @@
     const btn = form.querySelector('.form-submit');
     btn.textContent = 'Sending…';
     btn.disabled = true;
+    mirrorPledgeToSheet(form);
     try {
       const res = await fetch('https://formsubmit.co/ajax/o@olivetree.es', {
         method: 'POST',
