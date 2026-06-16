@@ -1168,10 +1168,21 @@
   // ── Pledges → Google Sheet (BB4 admin dashboard reads this) ──
   // Paste the deployed Apps Script web-app /exec URL here to mirror pledges into
   // the Google Sheet. Leave '' to disable (pledges still email via FormSubmit).
-  const PLEDGE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwFv5GclEobAW0Cf8no3rMD81s9860oEKwtU5lNTWnqO0NvgZv4HXIRZHEqTtCMxw9h/exec';
   function mirrorPledgeToSheet(form) {
-    if (!PLEDGE_SHEET_URL) return;
-    try { fetch(PLEDGE_SHEET_URL, { method: 'POST', body: new FormData(form), mode: 'no-cors' }); } catch (_) {}
+    try {
+      const data = Object.fromEntries(new FormData(form));
+      fetch('/api/pledge', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:    data.name    ?? '',
+          email:   data.email   ?? '',
+          people:  data.people  ?? '',
+          from:    data.from    ?? '',
+          artists: data.artists ?? '',
+        }),
+      });
+    } catch (_) {}
   }
 
   // ── Artist request gate — pledge required ──
