@@ -600,6 +600,31 @@
     }
     .wom-note strong { color: var(--white); font-style: normal; }
 
+    /* ── Requested Artists ── */
+    .artist-cloud {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+      margin-top: 8px;
+    }
+    .artist-tag {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 18px; border-radius: 30px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: var(--white); text-decoration: none;
+      font-size: 0.88rem; font-weight: 500; line-height: 1;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+    .artist-tag:hover {
+      background: rgba(255,30,140,0.12);
+      border-color: rgba(255,30,140,0.45);
+      transform: translateY(-2px);
+    }
+    .artist-tag .art-count {
+      font-size: 0.65rem; font-weight: 700;
+      color: var(--pink); letter-spacing: 0.03em;
+    }
+    #artistCloudEmpty { color: var(--mut2); font-size: 0.85rem; margin-top: 8px; }
+
     /* ── Responsive ── */
     @media (max-width: 900px) {
       .concept-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1019,6 +1044,24 @@
   </div>
 </section>
 
+<!-- ── REQUESTED ARTISTS ── -->
+<section class="section" id="requestedArtists" style="padding-top:52px;padding-bottom:68px;">
+  <div class="container" style="max-width:860px;text-align:center;">
+    <div class="eyebrow fu eyebrow--center" style="justify-content:center;">Requested Artists</div>
+    <h2 class="fu d1" style="font-size:clamp(1.8rem,4vw,2.6rem);">The people's shortlist.</h2>
+    <p class="fu d2" style="color:var(--mut);max-width:540px;margin:12px auto 40px;">
+      Not the confirmed lineup — just the acts pledgers are calling for. Click any name to find them on Instagram. The more requests, the harder we push to book them.
+    </p>
+    <div id="artistCloud" class="artist-cloud fu d2">
+      <!-- populated by JS -->
+    </div>
+    <p id="artistCloudEmpty" style="display:none;">No artist requests yet — be the first to suggest one below.</p>
+    <p style="margin-top:26px;font-size:0.78rem;color:var(--mut2);">
+      <a href="#request" style="color:var(--pink);text-decoration:none;">+ Request an artist →</a>
+    </p>
+  </div>
+</section>
+
 <!-- ── PLEDGE ── -->
 <div class="pledge-wrap" id="pledge">
   <div class="pledge-inner container">
@@ -1424,6 +1467,32 @@
       alert('Something went wrong — please try again or email us at hello@balearicbeats.es');
     }
   });
+
+  // ── Requested Artists ──────────────────────────────────────────────────────
+  (async function loadArtists() {
+    try {
+      const artists = await fetch('/api/artists').then(r => r.json());
+      const cloud = document.getElementById('artistCloud');
+      const empty = document.getElementById('artistCloudEmpty');
+      if (!cloud) return;
+
+      if (!Array.isArray(artists) || !artists.length) {
+        if (empty) empty.style.display = 'block';
+        return;
+      }
+
+      // Scale font size by popularity (max 3×)
+      const maxCount = artists[0].count || 1;
+      cloud.innerHTML = artists.map(a => {
+        const scale = 0.82 + (a.count / maxCount) * 0.28; // 0.82rem – 1.1rem
+        const igUrl = 'https://www.instagram.com/search/top/?q=' + encodeURIComponent(a.name);
+        return `<a href="${igUrl}" target="_blank" rel="noopener noreferrer"
+          class="artist-tag" style="font-size:${scale.toFixed(2)}rem;"
+          title="${a.count} request${a.count > 1 ? 's' : ''}"
+        >${a.name}${a.count > 1 ? ` <span class="art-count">×${a.count}</span>` : ''}</a>`;
+      }).join('');
+    } catch (_) {}
+  })();
 </script>
 </body>
 </html>
