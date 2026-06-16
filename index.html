@@ -1168,10 +1168,10 @@
   // ── Pledges → Google Sheet (BB4 admin dashboard reads this) ──
   // Paste the deployed Apps Script web-app /exec URL here to mirror pledges into
   // the Google Sheet. Leave '' to disable (pledges still email via FormSubmit).
-  function mirrorPledgeToSheet(form) {
+  async function mirrorPledgeToSheet(form) {
     try {
       const data = Object.fromEntries(new FormData(form));
-      fetch('/api/pledge', {
+      await fetch('/api/pledge', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1338,7 +1338,7 @@
     const btn = form.querySelector('.form-submit');
     btn.textContent = 'Sending…';
     btn.disabled = true;
-    mirrorPledgeToSheet(form);
+    await mirrorPledgeToSheet(form);
     try {
       const res = await fetch('https://formsubmit.co/ajax/o@olivetree.es', {
         method: 'POST',
