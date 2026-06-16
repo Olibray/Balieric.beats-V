@@ -405,6 +405,30 @@
       font-size: 0.95rem; max-width: 500px; margin: 0 auto; line-height: 1.7;
     }
 
+    /* ── PLEDGE PROGRESS BAR ── */
+    .progress-banner {
+      background: rgba(255,30,140,0.06);
+      border-top: 1px solid rgba(255,30,140,0.15);
+      border-bottom: 1px solid rgba(255,30,140,0.15);
+      padding: 22px 28px;
+    }
+    .progress-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+    }
+    .progress-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mut2); flex-shrink: 0; }
+    .progress-track {
+      flex: 1; min-width: 160px; height: 8px; border-radius: 50px;
+      background: rgba(255,255,255,0.08); overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 50px; width: 0%;
+      background: linear-gradient(90deg, var(--pink), var(--purple));
+      transition: width 1.2s cubic-bezier(0.22,1,0.36,1);
+    }
+    .progress-count { font-size: 0.8rem; color: var(--mut); flex-shrink: 0; white-space: nowrap; }
+    .progress-count strong { color: var(--yellow); }
+
     /* ── FOLLOW THE JOURNEY ── */
     .follow-section { background: var(--ink3); }
     .ig-btn {
@@ -500,6 +524,15 @@
     </div>
   </div>
 </section>
+
+<!-- ── PLEDGE PROGRESS ── -->
+<div class="progress-banner" id="progressBanner" style="display:none">
+  <div class="progress-inner">
+    <span class="progress-label">Towards go-live</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="progress-count" id="progressCount"></span>
+  </div>
+</div>
 
 <!-- ── CONCEPT ── -->
 <section class="section" id="concept">
@@ -863,6 +896,21 @@
     const probe = new Image();
     probe.onload = () => hero.classList.add('has-photo');
     probe.src = 'images/bali-sunset.jpg';
+  })();
+
+  // ── Live pledge counter ──
+  (async function loadProgress() {
+    try {
+      const { count, goal, pct } = await fetch('/api/pledge-count').then(r => r.json());
+      if (count === 0 && pct === 0) return; // not configured yet — keep banner hidden
+      const banner = document.getElementById('progressBanner');
+      const fill   = document.getElementById('progressFill');
+      const label  = document.getElementById('progressCount');
+      banner.style.display = 'block';
+      label.innerHTML = `<strong>${count}</strong> / ${goal} people`;
+      // slight delay so the CSS transition fires after paint
+      requestAnimationFrame(() => requestAnimationFrame(() => { fill.style.width = pct + '%'; }));
+    } catch (_) {}
   })();
 
   // ── Pledges → Google Sheet (BB4 admin dashboard reads this) ──
