@@ -26,8 +26,10 @@ export default async function handler(req, res) {
 
     const goal = 200;
     const pct = Math.min(100, Math.round((count / goal) * 100));
-    return res.status(200).json({ count, goal, pct });
+    // Phase is set manually via FESTIVAL_PHASE env var (1-4). Defaults to 1.
+    const phase = parseInt(process.env.FESTIVAL_PHASE || "1", 10);
+    return res.status(200).json({ count, goal, pct, phase });
   } catch {
-    return res.status(200).json({ count: 0, goal: 200, pct: 0 });
+    return res.status(200).json({ count: 0, goal: 200, pct: 0, phase: 1 });
   }
 }

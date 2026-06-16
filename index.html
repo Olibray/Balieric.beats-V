@@ -405,29 +405,104 @@
       font-size: 0.95rem; max-width: 500px; margin: 0 auto; line-height: 1.7;
     }
 
-    /* ── PLEDGE PROGRESS BAR ── */
-    .progress-banner {
-      background: rgba(255,30,140,0.06);
-      border-top: 1px solid rgba(255,30,140,0.15);
-      border-bottom: 1px solid rgba(255,30,140,0.15);
-      padding: 22px 28px;
+    /* ── PLEDGE PROGRESS SECTION ── */
+    .launch-progress {
+      background: var(--ink2);
+      padding: 80px 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
     }
-    .progress-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+    .launch-progress::before {
+      content: ''; position: absolute;
+      width: 600px; height: 300px; border-radius: 50%;
+      bottom: -150px; left: 50%; transform: translateX(-50%);
+      filter: blur(90px);
+      background: radial-gradient(circle, rgba(192,38,211,0.22), rgba(255,30,140,0.10) 60%, transparent 80%);
+      pointer-events: none;
     }
-    .progress-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mut2); flex-shrink: 0; }
-    .progress-track {
-      flex: 1; min-width: 160px; height: 8px; border-radius: 50px;
-      background: rgba(255,255,255,0.08); overflow: hidden;
+    .launch-progress-inner { position: relative; z-index: 2; max-width: 720px; margin: 0 auto; }
+    .lp-counter {
+      display: flex; align-items: baseline; justify-content: center;
+      gap: 10px; margin: 24px 0 8px;
     }
-    .progress-fill {
+    .lp-num {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(4rem, 10vw, 7rem);
+      line-height: 1; color: var(--yellow);
+      text-shadow: 0 0 60px rgba(255,30,140,0.4);
+    }
+    .lp-denom {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      color: var(--mut2); line-height: 1;
+    }
+    .lp-unit {
+      font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--mut2); margin-bottom: 28px;
+    }
+    .lp-track {
+      height: 10px; border-radius: 50px;
+      background: rgba(255,255,255,0.07);
+      overflow: hidden; margin: 0 auto 14px; max-width: 560px;
+    }
+    .lp-fill {
       height: 100%; border-radius: 50px; width: 0%;
       background: linear-gradient(90deg, var(--pink), var(--purple));
-      transition: width 1.2s cubic-bezier(0.22,1,0.36,1);
+      transition: width 1.4s cubic-bezier(0.16,1,0.3,1);
+      box-shadow: 0 0 16px rgba(255,30,140,0.5);
     }
-    .progress-count { font-size: 0.8rem; color: var(--mut); flex-shrink: 0; white-space: nowrap; }
-    .progress-count strong { color: var(--yellow); }
+    .lp-pct { font-size: 0.72rem; color: var(--mut2); margin-bottom: 36px; }
+    .lp-pct strong { color: var(--pink); }
+    /* Phase pipeline */
+    .lp-phases {
+      display: flex; gap: 0; margin-top: 36px;
+      border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+    }
+    .lp-phase {
+      flex: 1; padding: 18px 16px; text-align: center;
+      border-right: 1px solid var(--border); position: relative;
+      transition: background 0.3s;
+    }
+    .lp-phase:last-child { border-right: none; }
+    .lp-phase.active {
+      background: rgba(255,30,140,0.10);
+    }
+    .lp-phase.done {
+      background: rgba(34,197,94,0.06);
+    }
+    .lp-phase-dot {
+      width: 8px; height: 8px; border-radius: 50%; margin: 0 auto 10px;
+      background: var(--border);
+    }
+    .lp-phase.active .lp-phase-dot {
+      background: var(--pink);
+      box-shadow: 0 0 8px rgba(255,30,140,0.7);
+      animation: pulseDot 1.8s ease-in-out infinite;
+    }
+    .lp-phase.done .lp-phase-dot { background: #22c55e; }
+    @keyframes pulseDot {
+      0%,100% { box-shadow: 0 0 6px rgba(255,30,140,0.5); }
+      50%      { box-shadow: 0 0 14px rgba(255,30,140,0.9); }
+    }
+    .lp-phase-num {
+      font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--mut2); margin-bottom: 4px;
+    }
+    .lp-phase-name {
+      font-size: 0.78rem; font-weight: 600; color: var(--mut);
+      line-height: 1.3;
+    }
+    .lp-phase.active .lp-phase-name { color: var(--white); }
+    .lp-phase.done .lp-phase-name { color: #22c55e; }
+    .lp-phase-sub {
+      font-size: 0.65rem; color: var(--mut2); margin-top: 4px; line-height: 1.4;
+    }
+    @media (max-width: 600px) {
+      .lp-phases { flex-direction: column; }
+      .lp-phase { border-right: none; border-bottom: 1px solid var(--border); }
+      .lp-phase:last-child { border-bottom: none; }
+    }
 
     /* ── FOLLOW THE JOURNEY ── */
     .follow-section { background: var(--ink3); }
@@ -526,13 +601,45 @@
 </section>
 
 <!-- ── PLEDGE PROGRESS ── -->
-<div class="progress-banner" id="progressBanner" style="display:none">
-  <div class="progress-inner">
-    <span class="progress-label">Towards go-live</span>
-    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-    <span class="progress-count" id="progressCount"></span>
+<section class="launch-progress" id="launchProgress" style="display:none">
+  <div class="launch-progress-inner">
+    <div class="eyebrow fu eyebrow--center" style="justify-content:center">Festival Launch Progress</div>
+    <div class="lp-counter fu d1">
+      <span class="lp-num" id="lpNum">0</span>
+      <span class="lp-denom">/ 200</span>
+    </div>
+    <div class="lp-unit fu d1">people pledged · 200 unlocks the festival</div>
+    <div class="lp-track fu d2"><div class="lp-fill" id="lpFill"></div></div>
+    <div class="lp-pct fu d2"><strong id="lpPct">0%</strong> of the way to Bali</div>
+
+    <div class="lp-phases fu d3" id="lpPhases">
+      <div class="lp-phase" id="phase1">
+        <div class="lp-phase-dot"></div>
+        <div class="lp-phase-num">Phase 1</div>
+        <div class="lp-phase-name">Pledging</div>
+        <div class="lp-phase-sub">Building to<br>200 people</div>
+      </div>
+      <div class="lp-phase" id="phase2">
+        <div class="lp-phase-dot"></div>
+        <div class="lp-phase-num">Phase 2</div>
+        <div class="lp-phase-name">Launch</div>
+        <div class="lp-phase-sub">Collecting payments<br>& confirming go</div>
+      </div>
+      <div class="lp-phase" id="phase3">
+        <div class="lp-phase-dot"></div>
+        <div class="lp-phase-num">Phase 3</div>
+        <div class="lp-phase-name">Planning</div>
+        <div class="lp-phase-sub">Venue, logistics<br>& production locked</div>
+      </div>
+      <div class="lp-phase" id="phase4">
+        <div class="lp-phase-dot"></div>
+        <div class="lp-phase-num">Phase 4</div>
+        <div class="lp-phase-name">Festival</div>
+        <div class="lp-phase-sub">Booking DJs<br>& Bali 2027</div>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 
 <!-- ── CONCEPT ── -->
 <section class="section" id="concept">
@@ -901,15 +1008,38 @@
   // ── Live pledge counter ──
   (async function loadProgress() {
     try {
-      const { count, goal, pct } = await fetch('/api/pledge-count').then(r => r.json());
-      if (count === 0 && pct === 0) return; // not configured yet — keep banner hidden
-      const banner = document.getElementById('progressBanner');
-      const fill   = document.getElementById('progressFill');
-      const label  = document.getElementById('progressCount');
-      banner.style.display = 'block';
-      label.innerHTML = `<strong>${count}</strong> / ${goal} people`;
-      // slight delay so the CSS transition fires after paint
-      requestAnimationFrame(() => requestAnimationFrame(() => { fill.style.width = pct + '%'; }));
+      const { count, goal, pct, phase } = await fetch('/api/pledge-count').then(r => r.json());
+      const section = document.getElementById('launchProgress');
+      const numEl   = document.getElementById('lpNum');
+      const fillEl  = document.getElementById('lpFill');
+      const pctEl   = document.getElementById('lpPct');
+      section.style.display = 'block';
+
+      // Animate counter
+      const duration = 1400;
+      const start = performance.now();
+      function tick(now) {
+        const t = Math.min(1, (now - start) / duration);
+        const ease = 1 - Math.pow(1 - t, 3);
+        numEl.textContent = Math.round(ease * count);
+        if (t < 1) requestAnimationFrame(tick);
+        else numEl.textContent = count;
+      }
+      requestAnimationFrame(tick);
+
+      // Progress bar
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        fillEl.style.width = pct + '%';
+        pctEl.innerHTML = `<strong>${pct}%</strong> of the way to Bali`;
+      }));
+
+      // Phase indicators: phases before current = done, current = active
+      for (let i = 1; i <= 4; i++) {
+        const el = document.getElementById('phase' + i);
+        if (!el) continue;
+        if (i < phase) el.classList.add('done');
+        else if (i === phase) el.classList.add('active');
+      }
     } catch (_) {}
   })();
 
