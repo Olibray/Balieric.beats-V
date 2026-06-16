@@ -328,7 +328,6 @@
       text-decoration: none; white-space: nowrap; transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
     }
     .gate .gate-cta:hover { background: var(--pink-deep); transform: translateY(-1px); box-shadow: 0 10px 30px rgba(255,30,140,0.4); }
-    #artistForm.locked { opacity: 0.4; filter: grayscale(0.4); pointer-events: none; user-select: none; }
     .success-msg .resume {
       display: inline-block; margin-top: 14px; color: var(--ink); background: var(--yellow);
       padding: 11px 22px; border-radius: 30px; font-size: 0.76rem; font-weight: 600;
@@ -1276,11 +1275,7 @@
   const artistForm = document.getElementById('artistForm');
   const artistGate = document.getElementById('artistGate');
   function setGate(unlocked) {
-    artistForm.classList.toggle('locked', !unlocked);
-    artistForm.querySelectorAll('input, select, textarea, button').forEach(el => {
-      if (el.name === '_honey') return;
-      el.disabled = !unlocked;
-    });
+    artistForm.style.display  = unlocked ? 'block' : 'none';
     if (artistGate) artistGate.style.display = unlocked ? 'none' : 'flex';
   }
   const hasPledged = () => localStorage.getItem(PLEDGE_KEY) === '1';
