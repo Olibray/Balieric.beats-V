@@ -579,6 +579,27 @@
     }
     .footer-ig:hover { color: var(--white); }
 
+    /* ── Share buttons ── */
+    .share-row {
+      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px;
+    }
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 20px; border-radius: 30px; border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.05em; text-decoration: none; transition: opacity 0.2s, transform 0.15s;
+    }
+    .share-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .share-btn.wa  { background: #25D366; color: #fff; }
+    .share-btn.fb  { background: #1877F2; color: #fff; }
+    .share-btn.ig  { background: linear-gradient(135deg,#f58529,#dd2a7b,#8134af); color: #fff; }
+    .share-btn.native { background: rgba(255,255,255,0.10); color: var(--white); border: 1px solid rgba(255,255,255,0.18); }
+    .wom-note {
+      font-size: 0.82rem; color: var(--mut); font-style: italic;
+      margin-top: 16px; line-height: 1.6;
+    }
+    .wom-note strong { color: var(--white); font-style: normal; }
+
     /* ── Responsive ── */
     @media (max-width: 900px) {
       .concept-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1045,11 +1066,33 @@
 
     <div class="success-msg" id="successMsg">
       <strong>You're on the wall. 🌴</strong><br>
-      Your pledge is in — no payment yet. We'll let you know the moment we hit critical mass and the artists' book opens. Tickets are £250 once it's locked.
-      <br><br>
-      Follow the build on Instagram while we make this happen.
-      <a href="https://www.instagram.com/balearicbeatsevents/" target="_blank" rel="noopener noreferrer" class="resume" style="background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af);margin-bottom:10px;">Follow @balearicbeatsevents →</a>
-      <a href="#request" class="resume">Request your artists →</a>
+      Your pledge is in — no payment yet. We'll notify you the moment we hit 200 people and the artists' book opens.
+      <p class="wom-note" style="margin-top:14px;">
+        This festival <strong>only happens through word of mouth.</strong> There's no ad budget, no promoter machine — just people who want this to exist, telling other people who want this to exist. Every share moves us closer to Bali.
+      </p>
+
+      <div class="share-row">
+        <a id="shareWa" href="#" target="_blank" rel="noopener noreferrer" class="share-btn wa">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.845L0 24l6.335-1.508A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.366l-.359-.214-3.724.886.936-3.617-.234-.372A9.818 9.818 0 1112 21.818z"/></svg>
+          WhatsApp
+        </a>
+        <a id="shareFb" href="#" target="_blank" rel="noopener noreferrer" class="share-btn fb">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+          Facebook
+        </a>
+        <a href="https://www.instagram.com/balearicbeatsevents/" target="_blank" rel="noopener noreferrer" class="share-btn ig">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5.5" stroke="white" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="white" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="white"/></svg>
+          Follow &amp; share
+        </a>
+        <button id="shareNative" class="share-btn native" style="display:none">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+          Share
+        </button>
+      </div>
+
+      <div style="margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,0.08);">
+        <a href="#request" class="resume">Request your artists →</a>
+      </div>
     </div>
   </div>
 </div>
@@ -1330,6 +1373,24 @@
   }
   wireForm('artistForm', 'artistSuccess', 'Submit artist request →');
   wireForm('followForm', 'followSuccess', 'Keep me posted →');
+
+  // ── Share buttons ──
+  const SHARE_URL  = 'https://bali.balearicbeats.es';
+  const SHARE_TEXT = 'I just pledged for Balearic Beats V — trance & progressive house coming to Bali in 2027. This only happens if 200 people pledge. Join me 👇';
+  const SHARE_MSG  = encodeURIComponent(SHARE_TEXT + '\n' + SHARE_URL);
+
+  const waBtn = document.getElementById('shareWa');
+  const fbBtn = document.getElementById('shareFb');
+  if (waBtn) waBtn.href = 'https://wa.me/?text=' + SHARE_MSG;
+  if (fbBtn) fbBtn.href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SHARE_URL) + '&quote=' + encodeURIComponent(SHARE_TEXT);
+
+  const nativeBtn = document.getElementById('shareNative');
+  if (nativeBtn && navigator.share) {
+    nativeBtn.style.display = 'inline-flex';
+    nativeBtn.addEventListener('click', () => {
+      navigator.share({ title: 'Balearic Beats V · Bali 2027', text: SHARE_TEXT, url: SHARE_URL });
+    });
+  }
 
   // Pledge form — submit via FormSubmit.co, show success on completion
   document.getElementById('pledgeForm').addEventListener('submit', async e => {
