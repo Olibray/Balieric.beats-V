@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Balearic Beats V — Scan to Pledge</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0a0a0f;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      color: #fff;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+      padding: 56px 64px;
+      background: linear-gradient(145deg, #12121a, #1a1a2e);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 32px;
+      box-shadow: 0 0 80px rgba(138,90,255,0.15), 0 0 200px rgba(0,200,255,0.05);
+      text-align: center;
+      max-width: 520px;
+      width: 90vw;
+    }
+
+    .logo {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+
+    h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 800;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #fff 30%, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .sub {
+      font-size: 16px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.5;
+    }
+
+    #qr-container {
+      background: #fff;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 0 60px rgba(138,90,255,0.3);
+    }
+
+    #qr-container canvas,
+    #qr-container img {
+      display: block;
+    }
+
+    .url {
+      font-size: 15px;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.05em;
+    }
+
+    .cta {
+      font-size: 18px;
+      font-weight: 600;
+      color: #a78bfa;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pulse {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: #a78bfa;
+      border-radius: 50%;
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.7); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <p class="logo">Balearic Beats</p>
+
+    <h1>Join us for&nbsp;V</h1>
+
+    <p class="sub">Scan to pledge your spot &amp; request your artists.<br>Mallorca · Summer 2025</p>
+
+    <div id="qr-container">
+      <div id="qr"></div>
+    </div>
+
+    <p class="cta"><span class="pulse"></span> Scan with your camera</p>
+
+    <p class="url">bali.balearicbeats.es</p>
+  </div>
+
+  <script>
+    new QRCode(document.getElementById("qr"), {
+      text: "https://bali.balearicbeats.es",
+      width: 260,
+      height: 260,
+      colorDark: "#0a0a0f",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H,
+    });
+  </script>
+</body>
+</html>
